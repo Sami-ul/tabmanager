@@ -13,6 +13,7 @@ class MoveableStackItem extends StatefulWidget {
   double yPosition;
   final Function notifyParent;
   final Function notifyParentFull;
+  ScrollController controller = ScrollController();
   MoveableStackItem(this.content, this.category, this.xPosition, this.yPosition,
       this.notifyParent, this.notifyParentFull,
       {Key? key})
@@ -36,6 +37,7 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
   Future<void> removeLink(Link link) async {
     String url = "http://localhost:3000/links/${link.id}";
     var response = await http.delete(Uri.parse(url), body: link.toJson());
+    widget.notifyParent();
   }
 
   @override
@@ -82,6 +84,7 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                       height: 300,
                       width: 300,
                       child: ListView.builder(
+                          controller: widget.controller,
                           itemCount: widget.content!.length,
                           itemBuilder: (context, i) {
                             return Card(
@@ -115,11 +118,12 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                                               onPressed: () async {
                                                 await removeLink(
                                                     widget.content![i]);
-                                                widget.notifyParent();
                                                 if (widget.content!.length ==
                                                     1) {
                                                   widget.notifyParentFull(
                                                       widget.category);
+                                                } else {
+                                                  widget.notifyParent();
                                                 }
                                               },
                                               style: dangerButtonStyle,

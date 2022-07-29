@@ -37,6 +37,7 @@ class NewLinkPopup extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextFormField(
+                              autofocus: true,
                               controller: linkController,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -134,6 +135,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextFormField(
+                              autofocus: true,
                               controller: linkController,
                               validator: (value) {
                                 if (value!.isEmpty) {

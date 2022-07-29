@@ -29,7 +29,6 @@ class _HomeViewState extends State<HomeView> {
   void notifyParentFull(String category) {
     movableItems = {};
     setState(() {
-      movableItems = {};
       build(context);
     });
   }
