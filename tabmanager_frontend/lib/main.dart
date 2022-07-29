@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:tabmanager/widgets/movable_stack_item.dart';
 import 'package:flutter/material.dart';
 import 'package:tabmanager/JSON_Deserialization/link.dart';
 import 'package:http/http.dart' as http;
-import 'dart:ui';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tabmanager/widgets/popup.dart';
 
 void main() {
   runApp(const HomeView());
@@ -18,7 +18,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<Widget> movableItems = [];
+  Map<String, MoveableStackItem> movableItems = {};
   int index = 0;
   Future<List<Link>> getLinks() async {
     String url = "http://localhost:3000/links";
@@ -36,7 +36,6 @@ class _HomeViewState extends State<HomeView> {
   Map<String, List<Link>> separateToCategories(List<Link> links) {
     // TODO do this in db later
     Map<String, List<Link>> result = {};
-    print(links);
     for (Link i in links) {
       if (result[i.category] != null) {
         result[i.category]!.add(i);
@@ -50,13 +49,26 @@ class _HomeViewState extends State<HomeView> {
 
   Widget futureBuildResults(
       BuildContext context, AsyncSnapshot<List<Link>> snapshot) {
+    double posX;
+    double posY;
+    double maxX;
+    double maxY;
     if (snapshot.hasData) {
       if (snapshot.data!.isNotEmpty) {
         if (snapshot.data != null) {
           Map<String, List<Link>> separated =
               separateToCategories(snapshot.data!);
+          double posX = 10, posY = 10;
+          double maxX = MediaQuery.of(context).size.width;
+          double maxY = MediaQuery.of(context).size.height;
           for (String i in separated.keys) {
-            movableItems.add(MoveableStackItem(separated[i], i));
+            if (posX + 310 >= maxX) {
+              posX = 10;
+              posY += 400;
+            }
+
+            movableItems[i] = MoveableStackItem(separated[i], i, posX, posY);
+            posX += 350;
           }
         }
         return Scaffold(
@@ -66,9 +78,12 @@ class _HomeViewState extends State<HomeView> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[Colors.blue, Colors.white]),
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                    colors: <Color>[
+                      Color.fromARGB(255, 125, 138, 255),
+                      Color.fromARGB(255, 255, 117, 117),
+                    ]),
               )),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -83,10 +98,29 @@ class _HomeViewState extends State<HomeView> {
               ]),
             ),
             body: Stack(
-              children: movableItems,
+              children: movableItems.values.toList(),
+            ),
+            floatingActionButton: SpeedDial(
+              backgroundColor: const Color.fromARGB(255, 114, 90, 250),
+              overlayColor: Colors.black,
+              overlayOpacity: 0.3,
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                    child: const Icon(Icons.add),
+                    label: "Add new link",
+                    onTap: () {
+                      showDialog(
+                        // Flutter method for showing popups
+                        context: context,
+                        builder: (context) => NewLinkPopup(),
+                      );
+                      setState(() {});
+                    })
+              ],
             ));
       } else {
-        return const Text("No news found for this country");
+        return const Text("Could not load");
       }
     } else if (snapshot.hasError) {
       return Text(snapshot.error.toString());
@@ -102,112 +136,5 @@ class _HomeViewState extends State<HomeView> {
       builder: futureBuildResults,
       future: getLinks(),
     ));
-  }
-}
-
-class MoveableStackItem extends StatefulWidget {
-  MoveableStackItem(List<Link>? this.content, this.category, {Key? key})
-      : super(key: key);
-  List<Link>? content;
-  String category;
-  @override
-  State<StatefulWidget> createState() {
-    return _MoveableStackItemState(content, category);
-  }
-}
-
-class _MoveableStackItemState extends State<MoveableStackItem> {
-  _MoveableStackItemState(List<Link>? this.content, this.category);
-  List<Link>? content;
-  String category;
-
-  void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Random random = new Random();
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    double xPosition = random.nextDouble() * width;
-    double yPosition = random.nextDouble() * height;
-    return Positioned(
-      top: yPosition,
-      left: xPosition,
-      child: GestureDetector(
-          onPanUpdate: (tapInfo) {
-            setState(() {
-              xPosition += tapInfo.delta.dx;
-              yPosition += tapInfo.delta.dy;
-            });
-          },
-          child: Column(children: [
-            Center(
-                child: Text(
-              category,
-              style: const TextStyle(fontSize: 30),
-            )),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blueAccent),
-                borderRadius: BorderRadius.circular(25),
-              ),
-              width: 300,
-              height: 200,
-              child: ListView.builder(
-                  itemCount: content!.length,
-                  itemBuilder: (context, i) {
-                    return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
-                        clipBehavior: Clip.antiAlias,
-                        child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blue.shade200,
-                                  Colors.blue.shade100,
-                                  Colors.blue.shade300,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ListTile(title: Text("${content![i].link}")),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _launchURL("${content![i].link}");
-                                    },
-                                    child: Text("Open"),
-                                    style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                            EdgeInsets>(EdgeInsets.all(8)),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        25.0)))))
-                              ],
-                            )));
-                  }),
-            ),
-          ])),
-    );
   }
 }
