@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:tabmanager/widgets/movable_stack_item.dart';
 import 'package:flutter/material.dart';
-import 'package:tabmanager/JSON_Deserialization/link.dart';
+import 'package:tabmanager/json_deserialization/link.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tabmanager/widgets/popup.dart';
 
 void main() {
-  runApp(const HomeView());
+  runApp(MaterialApp(home: HomeView()));
 }
 
 class HomeView extends StatefulWidget {
@@ -20,6 +20,20 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   Map<String, MoveableStackItem> movableItems = {};
   int index = 0;
+  void notifyParent() {
+    setState(() {
+      build(context);
+    });
+  }
+
+  void notifyParentFull(String category) {
+    movableItems = {};
+    setState(() {
+      movableItems = {};
+      build(context);
+    });
+  }
+
   Future<List<Link>> getLinks() async {
     String url = "http://localhost:3000/links";
     var response = await http.get(Uri.parse(url));
@@ -49,10 +63,6 @@ class _HomeViewState extends State<HomeView> {
 
   Widget futureBuildResults(
       BuildContext context, AsyncSnapshot<List<Link>> snapshot) {
-    double posX;
-    double posY;
-    double maxX;
-    double maxY;
     if (snapshot.hasData) {
       if (snapshot.data!.isNotEmpty) {
         if (snapshot.data != null) {
@@ -66,61 +76,16 @@ class _HomeViewState extends State<HomeView> {
               posX = 10;
               posY += 400;
             }
-
-            movableItems[i] = MoveableStackItem(separated[i], i, posX, posY);
+            movableItems[i] = MoveableStackItem(
+                separated[i], i, posX, posY, notifyParent, notifyParentFull);
             posX += 350;
           }
         }
-        return Scaffold(
-            appBar: AppBar(
-              flexibleSpace: Container(
-                  decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                gradient: LinearGradient(
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft,
-                    colors: <Color>[
-                      Color.fromARGB(255, 125, 138, 255),
-                      Color.fromARGB(255, 255, 117, 117),
-                    ]),
-              )),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              backgroundColor: Colors.white,
-              shadowColor: Colors.white,
-              title: Row(children: const [
-                SizedBox(width: 20),
-                Text(
-                  "Tab Manager",
-                  style: TextStyle(color: Colors.black),
-                )
-              ]),
-            ),
-            body: Stack(
-              children: movableItems.values.toList(),
-            ),
-            floatingActionButton: SpeedDial(
-              backgroundColor: const Color.fromARGB(255, 114, 90, 250),
-              overlayColor: Colors.black,
-              overlayOpacity: 0.3,
-              animatedIcon: AnimatedIcons.menu_close,
-              children: [
-                SpeedDialChild(
-                    child: const Icon(Icons.add),
-                    label: "Add new link",
-                    onTap: () {
-                      showDialog(
-                        // Flutter method for showing popups
-                        context: context,
-                        builder: (context) => NewLinkPopup(),
-                      );
-                      setState(() {});
-                    })
-              ],
-            ));
+        return Stack(
+          children: movableItems.values.toList(),
+        );
       } else {
-        return const Text("Could not load");
+        return Container();
       }
     } else if (snapshot.hasError) {
       return Text(snapshot.error.toString());
@@ -131,10 +96,56 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: FutureBuilder(
-      builder: futureBuildResults,
-      future: getLinks(),
-    ));
+    return Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+              decoration: const ShapeDecoration(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                colors: <Color>[
+                  Color.fromARGB(255, 125, 138, 255),
+                  Color.fromARGB(255, 255, 117, 117),
+                ]),
+          )),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          title: Row(children: const [
+            SizedBox(width: 20),
+            Text(
+              "Tab Manager",
+              style: TextStyle(color: Colors.black),
+            )
+          ]),
+        ),
+        body: FutureBuilder(
+          builder: futureBuildResults,
+          future: getLinks(),
+        ),
+        floatingActionButton: SpeedDial(
+          backgroundColor: const Color.fromARGB(255, 114, 90, 250),
+          overlayColor: Colors.black,
+          overlayOpacity: 0.3,
+          animatedIcon: AnimatedIcons.menu_close,
+          children: [
+            SpeedDialChild(
+                child: const Icon(Icons.add),
+                label: "Add new link",
+                onTap: () async {
+                  await showDialog(
+                    // Flutter method for showing popups
+                    context: context,
+                    builder: (context) => NewLinkPopup(),
+                  );
+                  setState(() {
+                    build(context);
+                  });
+                })
+          ],
+        ));
   }
 }
