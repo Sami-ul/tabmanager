@@ -1,0 +1,6 @@
+*.cpp linguist-vendored=true
+*.h linguist-vendored=true
+*.d linguist-vendored=true
+*.js linguist-vendored=true
+*.txt linguist-vendored=true
+*.cc linguist-vendored=true
