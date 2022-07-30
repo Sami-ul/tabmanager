@@ -68,11 +68,20 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
           ),
           child: Column(
             children: [
-              Center(
-                  child: Text(
-                widget.category,
-                style: const TextStyle(fontSize: 30),
-              )),
+              SizedBox(
+                width: 300,
+                child: Tooltip(
+                  message: widget.category,
+                  child: Center(
+                    child: Text(
+                      widget.category,
+                      style: const TextStyle(fontSize: 30),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 8),
               SizedBox(
                 height: 300,
@@ -97,25 +106,31 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                                 SizedBox(
                                   height: 25,
                                   width: 100,
-                                  child: Text(
-                                    "${widget.content![i].title}",
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 17,
+                                  child: Tooltip(
+                                    message: "${widget.content![i].title}",
+                                    child: Text(
+                                      "${widget.content![i].title}",
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   height: 25,
-                                  width: 100,
-                                  child: Text(
-                                    "${widget.content![i].link}",
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    maxLines: 1,
+                                  width: 160,
+                                  child: Tooltip(
+                                    message: "${widget.content![i].link}",
+                                    child: Text(
+                                      "${widget.content![i].link}",
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      maxLines: 1,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -134,24 +149,32 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                                       child: const Text("Open")),
                                   const SizedBox(width: 8),
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        await removeLink(widget.content![i]);
-                                        if (widget.content!.length == 1) {
-                                          widget.notifyParentFull(
-                                              widget.category);
-                                        } else {
-                                          widget.notifyParent();
-                                        }
-                                        await removeLink(widget.content![i]);
-                                        if (widget.content!.length == 1) {
-                                          widget.notifyParentFull(
-                                              widget.category);
-                                        } else {
-                                          widget.notifyParent();
-                                        }
-                                      },
-                                      style: dangerButtonStyle,
-                                      child: const Text("Delete")),
+                                    onPressed: () async {
+                                      await removeLink(widget.content![i]);
+                                      if (widget.content!.length == 1) {
+                                        widget
+                                            .notifyParentFull(widget.category);
+                                      } else {
+                                        widget.notifyParent();
+                                      }
+                                      await removeLink(widget.content![i]);
+                                      if (widget.content!.length == 1) {
+                                        widget
+                                            .notifyParentFull(widget.category);
+                                      } else {
+                                        widget.notifyParent();
+                                      }
+                                      const snackBar = SnackBar(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 144, 99, 248),
+                                        content: Text('Removed'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    style: dangerButtonStyle,
+                                    child: const Text("Delete"),
+                                  ),
                                 ],
                               ),
                             )

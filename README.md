@@ -54,3 +54,8 @@ Created by Sami-ul
         - `cd tabmanager_frontend`
         - `flutter run -d Chrome --release --web-port=5000`
     - Now the app will start
+
+## Running release
+- `flutter build web --release -v` in root
+- Edit `/build/web/index.html`, replace line `<base href="/">` with `<base href="/web/">`
+- Copy localhost.py into `/build/web/`

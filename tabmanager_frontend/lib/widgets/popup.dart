@@ -90,6 +90,13 @@ class NewLinkPopup extends StatelessWidget {
                                 link: linkController.text,
                               ));
                               Navigator.pop(context); // closes popup
+                              const snackBar = SnackBar(
+                                backgroundColor:
+                                    Color.fromARGB(255, 144, 99, 248),
+                                content: Text('Added'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             },
                             child: const Text("Add")),
                         SizedBox(height: 25),
@@ -207,6 +214,13 @@ class NewLinkPopupCategory extends StatelessWidget {
                                         link: linkController.text,
                                       ));
                                       Navigator.pop(context); // closes popup
+                                      const snackBar = SnackBar(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 144, 99, 248),
+                                        content: Text('Added'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
                                     },
                                     child: const Text("Add")),
                                 SizedBox(height: 25),

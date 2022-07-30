@@ -87,7 +87,10 @@ class _HomeViewState extends State<HomeView> {
     } else if (snapshot.hasError) {
       return Text(snapshot.error.toString());
     } else {
-      return const Center(child: CircularProgressIndicator.adaptive());
+      return const Center(
+          child: CircularProgressIndicator.adaptive(
+        backgroundColor: Color.fromARGB(255, 125, 138, 255),
+      ));
     }
   }
 
@@ -135,18 +138,24 @@ class _HomeViewState extends State<HomeView> {
         animatedIcon: AnimatedIcons.menu_close,
         children: [
           SpeedDialChild(
-              child: const Icon(Icons.add),
-              label: "Add new link",
-              onTap: () async {
-                await showDialog(
-                  // Flutter method for showing popups
-                  context: context,
-                  builder: (context) => NewLinkPopup(),
-                );
-                setState(() {
-                  build(context);
-                });
-              })
+            child: const Icon(Icons.add),
+            label: "Add new link",
+            onTap: () async {
+              await showDialog(
+                // Flutter method for showing popups
+                context: context,
+                builder: (context) => NewLinkPopup(),
+              );
+              setState(() {
+                build(context);
+              });
+              const snackBar = SnackBar(
+                backgroundColor: Color.fromARGB(255, 144, 99, 248),
+                content: Text('Added'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          )
         ],
       ),
     );
