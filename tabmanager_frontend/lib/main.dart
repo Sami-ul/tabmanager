@@ -27,9 +27,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void notifyParentFull(String category) {
-    movableItems = {};
     setState(() {
-      build(context);
+      movableItems = {};
     });
   }
 
@@ -69,7 +68,6 @@ class _HomeViewState extends State<HomeView> {
               separateToCategories(snapshot.data!);
           double posX = 10, posY = 10;
           double maxX = MediaQuery.of(context).size.width;
-          double maxY = MediaQuery.of(context).size.height;
           for (String i in separated.keys) {
             if (posX + 310 >= maxX) {
               posX = 10;
@@ -77,7 +75,7 @@ class _HomeViewState extends State<HomeView> {
             }
             movableItems[i] = MoveableStackItem(
                 separated[i], i, posX, posY, notifyParent, notifyParentFull);
-            posX += 350;
+            posX += 330;
           }
         }
         return Stack(
@@ -95,56 +93,62 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    movableItems = {};
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-              decoration: const ShapeDecoration(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const ShapeDecoration(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25))),
             gradient: LinearGradient(
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
-                colors: <Color>[
-                  Color.fromARGB(255, 125, 138, 255),
-                  Color.fromARGB(255, 255, 117, 117),
-                ]),
-          )),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-          backgroundColor: Colors.white,
-          shadowColor: Colors.white,
-          title: Row(children: const [
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+              colors: <Color>[
+                Color.fromARGB(255, 125, 138, 255),
+                Color.fromARGB(255, 255, 117, 117),
+              ],
+            ),
+          ),
+        ),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25))),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        title: Row(
+          children: const [
             SizedBox(width: 20),
             Text(
               "Tab Manager",
               style: TextStyle(color: Colors.black),
             )
-          ]),
-        ),
-        body: FutureBuilder(
-          builder: futureBuildResults,
-          future: getLinks(),
-        ),
-        floatingActionButton: SpeedDial(
-          backgroundColor: const Color.fromARGB(255, 114, 90, 250),
-          overlayColor: Colors.black,
-          overlayOpacity: 0.3,
-          animatedIcon: AnimatedIcons.menu_close,
-          children: [
-            SpeedDialChild(
-                child: const Icon(Icons.add),
-                label: "Add new link",
-                onTap: () async {
-                  await showDialog(
-                    // Flutter method for showing popups
-                    context: context,
-                    builder: (context) => NewLinkPopup(),
-                  );
-                  setState(() {
-                    build(context);
-                  });
-                })
           ],
-        ));
+        ),
+      ),
+      body: FutureBuilder(
+        builder: futureBuildResults,
+        future: getLinks(),
+      ),
+      floatingActionButton: SpeedDial(
+        backgroundColor: const Color.fromARGB(255, 114, 90, 250),
+        overlayColor: Colors.black,
+        overlayOpacity: 0.3,
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+              child: const Icon(Icons.add),
+              label: "Add new link",
+              onTap: () async {
+                await showDialog(
+                  // Flutter method for showing popups
+                  context: context,
+                  builder: (context) => NewLinkPopup(),
+                );
+                setState(() {
+                  build(context);
+                });
+              })
+        ],
+      ),
+    );
   }
 }

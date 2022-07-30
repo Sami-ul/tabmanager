@@ -28,9 +28,9 @@ const getLinkById = (request, response) => {
 };
 
 const createLink = (request, response) => {
-    const { category, link } = request.body;
+    const { title, category, link } = request.body;
 
-    pool.query('INSERT INTO links (category, link) VALUES ($1, $2) RETURNING *', [category, link], (error, results) => {
+    pool.query('INSERT INTO links (title, category, link) VALUES ($1, $2, $3) RETURNING *', [title, category, link], (error, results) => {
         if (error) {
             throw error;
         }
@@ -40,11 +40,11 @@ const createLink = (request, response) => {
 
 const updateLink = (request, response) => {
     const id = parseInt(request.params.id);
-    const { category, link } = request.body;
+    const { title, category, link } = request.body;
 
     pool.query(
-        'UPDATE links SET category = $1, link = $2 WHERE ID = $3',
-        [category, link, id],
+        'UPDATE links SET title = $1, category = $2, link = $3 WHERE ID = $4',
+        [title, category, link, id],
         (error, results) => {
             if (error) {
                 throw error;
@@ -70,4 +70,5 @@ module.exports = {
     createLink,
     updateLink,
     deleteLink,
+    pool,
 };

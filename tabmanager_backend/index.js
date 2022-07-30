@@ -5,7 +5,9 @@ const app = express();
 const port = 3000;
 const cors = require('cors')
 app.use(bodyParser.json());
+const Pool = require('pg').Pool
 
+db.pool.query("CREATE TABLE IF NOT EXISTS links (ID SERIAL PRIMARY KEY, title TEXT, category VARCHAR(30), link TEXT);")
 app.use(
     bodyParser.urlencoded({
         extended: true,

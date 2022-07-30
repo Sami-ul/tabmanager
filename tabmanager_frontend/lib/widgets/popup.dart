@@ -18,6 +18,7 @@ class NewLinkPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     late TextEditingController linkController = TextEditingController();
     late TextEditingController categoryController = TextEditingController();
+    late TextEditingController titleController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return BackdropFilter(
       // Blurs the background
@@ -29,69 +30,84 @@ class NewLinkPopup extends StatelessWidget {
               // Rounded corners
               borderRadius: const BorderRadius.all(const Radius.circular(25))),
           title: Center(
-              child: Form(
-                  key: formKey,
-                  child: SafeArea(
-                      minimum: const EdgeInsets.all(20),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextFormField(
-                              autofocus: true,
-                              controller: linkController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Enter a link";
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Link"),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Enter a category (case sensitive)";
-                                }
-                                return null;
-                              },
-                              controller: categoryController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Category"),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                    style: buttonStyle,
-                                    onPressed: () async {
-                                      addLink(Link(
-                                        category: categoryController.text,
-                                        link: linkController.text,
-                                      ));
-                                      Navigator.pop(context); // closes popup
-                                    },
-                                    child: const Text("Add")),
-                                SizedBox(height: 25),
-                                ElevatedButton(
-                                  style: buttonStyle, // Using the style we made
-                                  onPressed: () {
-                                    Navigator.pop(
-                                        context); // Allows the user to close the popup
-                                  },
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
-                          ])))), // What the text will be
+            child: Form(
+              key: formKey,
+              child: SafeArea(
+                minimum: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      autofocus: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a title";
+                        }
+                        return null;
+                      },
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Title"),
+                    ),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: linkController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a link";
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Link"),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a category (case sensitive)";
+                        }
+                        return null;
+                      },
+                      controller: categoryController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Category"),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            style: buttonStyle,
+                            onPressed: () async {
+                              addLink(Link(
+                                title: titleController.text,
+                                category: categoryController.text,
+                                link: linkController.text,
+                              ));
+                              Navigator.pop(context); // closes popup
+                            },
+                            child: const Text("Add")),
+                        SizedBox(height: 25),
+                        ElevatedButton(
+                          style: buttonStyle, // Using the style we made
+                          onPressed: () {
+                            Navigator.pop(
+                                context); // Allows the user to close the popup
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ), // What the text will be
         ),
       ),
     );
@@ -115,6 +131,7 @@ class NewLinkPopupCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     late TextEditingController linkController = TextEditingController();
     late TextEditingController categoryController = TextEditingController();
+    late TextEditingController titleController = TextEditingController();
     categoryController.text = category;
     final formKey = GlobalKey<FormState>();
     return BackdropFilter(
@@ -136,6 +153,19 @@ class NewLinkPopupCategory extends StatelessWidget {
                           children: [
                             TextFormField(
                               autofocus: true,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Enter a title";
+                                }
+                                return null;
+                              },
+                              controller: titleController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Title"),
+                            ),
+                            const SizedBox(height: 30),
+                            TextFormField(
                               controller: linkController,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -172,6 +202,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                                     style: buttonStyle,
                                     onPressed: () async {
                                       addLink(Link(
+                                        title: titleController.text,
                                         category: categoryController.text,
                                         link: linkController.text,
                                       ));
