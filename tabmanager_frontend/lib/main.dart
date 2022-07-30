@@ -78,9 +78,23 @@ class _HomeViewState extends State<HomeView> {
             posX += 330;
           }
         }
-        return Stack(
-          children: movableItems.values.toList(),
+        return CustomScrollView(
+          primary: false,
+          slivers: <Widget>[
+            SliverPadding(
+              padding: const EdgeInsets.all(20),
+              sliver: SliverGrid.count(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 4,
+                children: movableItems.values.toList(),
+              ),
+            ),
+          ],
         );
+        /*Stack(
+          children: movableItems.values.toList(),
+        );*/
       } else {
         return Container();
       }
