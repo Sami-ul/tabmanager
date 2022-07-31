@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:tabmanager/widgets/button_style.dart';
 
 class NewLinkPopup extends StatelessWidget {
-  NewLinkPopup({
+  const NewLinkPopup({
     Key? key,
   }) : super(key: key);
 
   void addLink(Link link) async {
     String url = "http://localhost:3000/links";
-    var response = await http.post(Uri.parse(url), body: link.toJson());
+    await http.post(Uri.parse(url), body: link.toJson());
   }
 
   @override
@@ -28,7 +28,7 @@ class NewLinkPopup extends StatelessWidget {
         child: AlertDialog(
           shape: const RoundedRectangleBorder(
               // Rounded corners
-              borderRadius: const BorderRadius.all(const Radius.circular(25))),
+              borderRadius: BorderRadius.all(Radius.circular(25))),
           title: Center(
             child: Form(
               key: formKey,
@@ -82,24 +82,25 @@ class NewLinkPopup extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                            style: buttonStyle,
-                            onPressed: () async {
-                              addLink(Link(
-                                title: titleController.text,
-                                category: categoryController.text,
-                                link: linkController.text,
-                              ));
-                              Navigator.pop(context); // closes popup
-                              const snackBar = SnackBar(
-                                backgroundColor:
-                                    Color.fromARGB(255, 144, 99, 248),
-                                content: Text('Added'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            },
-                            child: const Text("Add")),
-                        SizedBox(height: 25),
+                          style: buttonStyle,
+                          onPressed: () async {
+                            addLink(Link(
+                              title: titleController.text,
+                              category: categoryController.text,
+                              link: linkController.text,
+                            ));
+                            Navigator.pop(context); // closes popup
+                            const snackBar = SnackBar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 144, 99, 248),
+                              content: Text('Added'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          child: const Text("Add"),
+                        ),
+                        const SizedBox(height: 25),
                         ElevatedButton(
                           style: buttonStyle, // Using the style we made
                           onPressed: () {
@@ -122,16 +123,16 @@ class NewLinkPopup extends StatelessWidget {
 }
 
 class NewLinkPopupCategory extends StatelessWidget {
-  NewLinkPopupCategory(
+  const NewLinkPopupCategory(
     this.category, {
     Key? key,
   }) : super(key: key);
 
-  String category;
+  final String category;
 
   void addLink(Link link) async {
     String url = "http://localhost:3000/links";
-    var response = await http.post(Uri.parse(url), body: link.toJson());
+    await http.post(Uri.parse(url), body: link.toJson());
   }
 
   @override
@@ -149,7 +150,7 @@ class NewLinkPopupCategory extends StatelessWidget {
         child: AlertDialog(
           shape: const RoundedRectangleBorder(
               // Rounded corners
-              borderRadius: const BorderRadius.all(const Radius.circular(25))),
+              borderRadius: BorderRadius.all(Radius.circular(25))),
           title: Center(
               child: Form(
                   key: formKey,
@@ -223,7 +224,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                                           .showSnackBar(snackBar);
                                     },
                                     child: const Text("Add")),
-                                SizedBox(height: 25),
+                                const SizedBox(height: 25),
                                 ElevatedButton(
                                   style: buttonStyle, // Using the style we made
                                   onPressed: () {

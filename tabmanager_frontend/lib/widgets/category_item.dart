@@ -4,9 +4,9 @@ import 'package:tabmanager/widgets/button_style.dart';
 import 'package:tabmanager/widgets/popup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-import 'package:tabmanager/main.dart';
+import 'package:flutter/services.dart';
 
-class MoveableStackItem extends StatefulWidget {
+class CategoryItem extends StatefulWidget {
   List<Link>? content;
   String category;
   double xPosition;
@@ -14,18 +14,18 @@ class MoveableStackItem extends StatefulWidget {
   final Function notifyParent;
   final Function notifyParentFull;
   ScrollController controller = ScrollController();
-  MoveableStackItem(this.content, this.category, this.xPosition, this.yPosition,
+  CategoryItem(this.content, this.category, this.xPosition, this.yPosition,
       this.notifyParent, this.notifyParentFull,
       {Key? key})
       : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _MoveableStackItemState();
+    return _CategoryItem();
   }
 }
 
-class _MoveableStackItemState extends State<MoveableStackItem> {
-  _MoveableStackItemState();
+class _CategoryItem extends State<CategoryItem> {
+  _CategoryItem();
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -36,7 +36,7 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
 
   Future<void> removeLink(Link link) async {
     String url = "http://localhost:3000/links/${link.id}";
-    var response = await http.delete(Uri.parse(url), body: link.toJson());
+    await http.delete(Uri.parse(url), body: link.toJson());
     widget.notifyParent();
   }
 
@@ -72,16 +72,16 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                 child: Center(
                   child: Text(
                     widget.category,
-                    style: const TextStyle(fontSize: 30),
+                    style: const TextStyle(fontSize: 24),
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
-              height: 300,
+              height: 350,
               width: 500,
               child: ListView.builder(
                   controller: widget.controller,
@@ -136,6 +136,23 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                IconButton(
+                                  splashRadius: 20,
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                      ClipboardData(
+                                          text: widget.content![i].link),
+                                    );
+                                    const snackBar = SnackBar(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 144, 99, 248),
+                                      content: Text('Copied'),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  },
+                                  icon: const Icon(Icons.copy),
+                                ),
                                 ElevatedButton(
                                   onPressed: () async {
                                     await removeLink(widget.content![i]);
@@ -176,7 +193,7 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                     );
                   }),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             ElevatedButton(
                 style: buttonStyle,
                 onPressed: () async {
