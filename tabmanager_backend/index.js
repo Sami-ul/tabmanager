@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+var path = require('path');
 const db = require('./queries');
 const app = express();
 const port = 3000;
-const cors = require('cors')
 app.use(bodyParser.json());
 const Pool = require('pg').Pool
 
@@ -13,10 +13,7 @@ app.use(
         extended: true,
     })
 );
-
-app.use(cors({
-    origin: '*'
-}));
+app.use(express.static(path.join(__dirname, 'flutter_build')));
 
 app.get('/', (req, res) => {
     res.send("online");

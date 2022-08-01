@@ -16,6 +16,9 @@ You can contact me here: ahmed.samiul.h@gmail.com
 
 Created by Sami-ul
 
+## Recent updates
+- Made the app run faster by using the backend to serve the build
+- Check `Usage` to know how to use it now
 
 ![](repoAssets/page1.png)
 ![](repoAssets/page2.png)
@@ -24,14 +27,18 @@ Created by Sami-ul
 - A tab manager that uses Postgres, NodeJS, Express, and Flutter
 - Boxes are draggable
 - Instructions to set up Postgres are in `tabmanager_backend\SQL_Queries`
-- Web port must be 5000 as per CORS policy defined in index.js
 
-## Setup
+## Usage
+- Build flutter if updated version is not in `tabmanager_backend\flutter_build`
+- Navigate to `tabmanager_backend` and run `node .`
+- App is open on port 3000
+## Required Tools
 - Make sure you have the following tools installed
     - Postgres
     - NodeJS
     - Flutter
 ## Setup
+- Deprecated: Use instructions in `usage` instead, still use this for updating
 - Updating packages
     - To do this navigate to each folder in server
     - Enter these commands in terminal
