@@ -91,10 +91,10 @@ class NewLinkPopup extends StatelessWidget {
                             ));
                             Navigator.pop(context); // closes popup
                             const snackBar = SnackBar(
-                              backgroundColor:
-                                  Color.fromARGB(255, 144, 99, 248),
-                              content: Text('Added'),
-                            );
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 255, 255,),
+                                      content: Text('Added', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
+                                    );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
@@ -216,10 +216,10 @@ class NewLinkPopupCategory extends StatelessWidget {
                                       ));
                                       Navigator.pop(context); // closes popup
                                       const snackBar = SnackBar(
-                                        backgroundColor:
-                                            Color.fromARGB(255, 144, 99, 248),
-                                        content: Text('Added'),
-                                      );
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 255, 255,),
+                                      content: Text('Added', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
+                                    );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     },
