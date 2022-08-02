@@ -145,8 +145,15 @@ class _CategoryItem extends State<CategoryItem> {
                                     );
                                     const snackBar = SnackBar(
                                       backgroundColor:
-                                          Color.fromARGB(255, 255, 255, 255,),
-                                      content: Text('Copied', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
+                                          Color.fromARGB(255, 114, 90, 250),
+                                      content: Text(
+                                        'Copied',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
@@ -169,8 +176,15 @@ class _CategoryItem extends State<CategoryItem> {
                                     }
                                     const snackBar = SnackBar(
                                       backgroundColor:
-                                          Color.fromARGB(255, 255, 255, 255,),
-                                      content: Text('Removed', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
+                                          Color.fromARGB(255, 114, 90, 250),
+                                      content: Text(
+                                        'Removed',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);

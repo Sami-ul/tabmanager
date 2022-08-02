@@ -91,10 +91,17 @@ class NewLinkPopup extends StatelessWidget {
                             ));
                             Navigator.pop(context); // closes popup
                             const snackBar = SnackBar(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 255, 255, 255,),
-                                      content: Text('Added', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
-                                    );
+                              backgroundColor:
+                                  Color.fromARGB(255, 114, 90, 250),
+                              content: Text(
+                                'Added',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
@@ -152,91 +159,100 @@ class NewLinkPopupCategory extends StatelessWidget {
               // Rounded corners
               borderRadius: BorderRadius.all(Radius.circular(25))),
           title: Center(
-              child: Form(
-                  key: formKey,
-                  child: SafeArea(
-                      minimum: const EdgeInsets.all(20),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextFormField(
-                              autofocus: true,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Enter a title";
-                                }
-                                return null;
-                              },
-                              controller: titleController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Title"),
-                            ),
-                            const SizedBox(height: 30),
-                            TextFormField(
-                              controller: linkController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Enter a link";
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Link"),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Enter a category (case sensitive)";
-                                }
-                                return null;
-                              },
-                              controller: categoryController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Category"),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                    style: buttonStyle,
-                                    onPressed: () async {
-                                      addLink(Link(
-                                        title: titleController.text,
-                                        category: categoryController.text,
-                                        link: linkController.text,
-                                      ));
-                                      Navigator.pop(context); // closes popup
-                                      const snackBar = SnackBar(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 255, 255, 255,),
-                                      content: Text('Added', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
-                                    );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                    },
-                                    child: const Text("Add")),
-                                const SizedBox(height: 25),
-                                ElevatedButton(
-                                  style: buttonStyle, // Using the style we made
-                                  onPressed: () {
-                                    Navigator.pop(
-                                        context); // Allows the user to close the popup
-                                  },
-                                  child: const Text(
-                                      'Close'), // Text inside the button
+            child: Form(
+              key: formKey,
+              child: SafeArea(
+                minimum: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      autofocus: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a title";
+                        }
+                        return null;
+                      },
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Title"),
+                    ),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: linkController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a link";
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Link"),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a category (case sensitive)";
+                        }
+                        return null;
+                      },
+                      controller: categoryController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Category"),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            style: buttonStyle,
+                            onPressed: () async {
+                              addLink(
+                                Link(
+                                  title: titleController.text,
+                                  category: categoryController.text,
+                                  link: linkController.text,
                                 ),
-                              ],
-                            ),
-                          ])))), // What the text will be
+                              );
+                              Navigator.pop(context); // closes popup
+                              const snackBar = SnackBar(
+                                backgroundColor:
+                                    Color.fromARGB(255, 114, 90, 250),
+                                content: Text(
+                                  'Added',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            child: const Text("Add")),
+                        const SizedBox(height: 25),
+                        ElevatedButton(
+                          style: buttonStyle, // Using the style we made
+                          onPressed: () {
+                            Navigator.pop(
+                                context); // Allows the user to close the popup
+                          },
+                          child: const Text('Close'), // Text inside the button
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
