@@ -1,10 +1,42 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import '../json_deserialization/link.dart';
-import '../widgets/category_item.dart';
-import '../widgets/popup.dart';
+import 'package:flutter/material.dart'
+    show
+        Alignment,
+        AnimatedIcons,
+        AppBar,
+        AsyncSnapshot,
+        BorderRadius,
+        BuildContext,
+        Center,
+        CircularProgressIndicator,
+        Color,
+        Colors,
+        Container,
+        CustomScrollView,
+        EdgeInsets,
+        FutureBuilder,
+        Icon,
+        Icons,
+        Key,
+        LinearGradient,
+        MediaQuery,
+        Radius,
+        RoundedRectangleBorder,
+        Scaffold,
+        ShapeDecoration,
+        SliverGrid,
+        SliverPadding,
+        State,
+        StatefulWidget,
+        Text,
+        TextStyle,
+        Widget,
+        showDialog;
+import 'package:flutter_speed_dial/flutter_speed_dial.dart'
+    show SpeedDial, SpeedDialChild;
+import 'package:tabmanager/api_interaction/api_requests.dart' show APIRequests;
+import 'package:tabmanager/api_interaction/link.dart' show Link;
+import 'package:tabmanager/widgets/category_item.dart' show CategoryItem;
+import 'package:tabmanager/widgets/popup.dart' show ErrorPopup, NewLinkPopup;
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -32,19 +64,6 @@ class _HomeViewState extends State<HomeView> {
     setState(() {
       movableItems = {};
     });
-  }
-
-  Future<List<Link>> getLinks() async {
-    String url = "http://localhost:3000/links";
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var linksList = (json.decode(response.body) as List)
-          .map((e) => Link.fromJson(e))
-          .toList(); // deserialize
-      return linksList;
-    } else {
-      throw Exception("Failed to load");
-    }
   }
 
   Map<String, List<Link>> separateToCategories(List<Link> links) {
@@ -98,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
         return Container();
       }
     } else if (snapshot.hasError) {
-      return Text(snapshot.error.toString());
+      return ErrorPopup(snapshot.error.toString());
     } else {
       return const Center(
         child: CircularProgressIndicator(),
@@ -137,7 +156,7 @@ class _HomeViewState extends State<HomeView> {
           )),
       body: FutureBuilder(
         builder: futureBuildResults,
-        future: getLinks(),
+        future: APIRequests.getLinks(),
       ),
       floatingActionButton: SpeedDial(
         backgroundColor: const Color.fromARGB(255, 114, 90, 250),

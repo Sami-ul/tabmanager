@@ -1,18 +1,49 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:tabmanager/JSON_Deserialization/link.dart';
-import 'package:http/http.dart' as http;
-import 'package:tabmanager/widgets/button_style.dart';
+// Widget imports
+import 'package:flutter/material.dart'
+    show
+        AlertDialog,
+        BackdropFilter,
+        BorderRadius,
+        BuildContext,
+        Center,
+        Color,
+        Colors,
+        Column,
+        Container,
+        EdgeInsets,
+        ElevatedButton,
+        Form,
+        FormState,
+        GlobalKey,
+        InputDecoration,
+        Key,
+        MainAxisAlignment,
+        Navigator,
+        OutlineInputBorder,
+        Radius,
+        RoundedRectangleBorder,
+        SafeArea,
+        ScaffoldMessenger,
+        SizedBox,
+        SnackBar,
+        StatelessWidget,
+        Text,
+        TextAlign,
+        TextEditingController,
+        TextFormField,
+        TextStyle,
+        Widget;
+import 'package:tabmanager/widgets/button_style.dart' show buttonStyle;
+import 'dart:ui' show Color, ImageFilter, Radius, TextAlign;
+
+// API imports
+import 'package:tabmanager/api_interaction/link.dart' show Link;
+import 'package:tabmanager/api_interaction/api_requests.dart' show APIRequests;
 
 class NewLinkPopup extends StatelessWidget {
   const NewLinkPopup({
     Key? key,
   }) : super(key: key);
-
-  void addLink(Link link) async {
-    String url = "http://localhost:3000/links";
-    await http.post(Uri.parse(url), body: link.toJson());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +115,7 @@ class NewLinkPopup extends StatelessWidget {
                         ElevatedButton(
                           style: buttonStyle,
                           onPressed: () async {
-                            addLink(Link(
+                            APIRequests.addLink(Link(
                               title: titleController.text,
                               category: categoryController.text,
                               link: linkController.text,
@@ -136,11 +167,6 @@ class NewLinkPopupCategory extends StatelessWidget {
   }) : super(key: key);
 
   final String category;
-
-  void addLink(Link link) async {
-    String url = "http://localhost:3000/links";
-    await http.post(Uri.parse(url), body: link.toJson());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +239,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                         ElevatedButton(
                             style: buttonStyle,
                             onPressed: () async {
-                              addLink(
+                              APIRequests.addLink(
                                 Link(
                                   title: titleController.text,
                                   category: categoryController.text,
@@ -253,6 +279,48 @@ class NewLinkPopupCategory extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ErrorPopup extends StatelessWidget {
+  const ErrorPopup(
+    this.message, {
+    Key? key,
+  }) : super(key: key);
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    return BackdropFilter(
+      // Blurs the background
+      filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+      child: Container(
+        color: Colors.black.withOpacity(0.1),
+        child: AlertDialog(
+          shape: const RoundedRectangleBorder(
+              // Rounded corners
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+          title: Center(
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: buttonStyle, // Using the style we made
+              onPressed: () {
+                Navigator.pop(context); // Allows the user to close the popup
+              },
+              child: const Text('Close'), // Text inside the button
+            ),
+          ],
         ),
       ),
     );

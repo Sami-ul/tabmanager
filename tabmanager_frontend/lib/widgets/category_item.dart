@@ -1,10 +1,56 @@
-import 'package:flutter/material.dart';
-import 'package:tabmanager/json_deserialization/link.dart';
-import 'package:tabmanager/widgets/button_style.dart';
-import 'package:tabmanager/widgets/popup.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
+// Widget imports
+import 'package:flutter/material.dart'
+    show
+        Alignment,
+        BorderRadius,
+        BoxDecoration,
+        BuildContext,
+        Card,
+        Center,
+        Clip,
+        Color,
+        Colors,
+        Column,
+        Container,
+        EdgeInsets,
+        ElevatedButton,
+        FontWeight,
+        Icon,
+        IconButton,
+        Icons,
+        Key,
+        LinearGradient,
+        ListTile,
+        ListView,
+        MainAxisAlignment,
+        Padding,
+        Radius,
+        RoundedRectangleBorder,
+        Row,
+        ScaffoldMessenger,
+        ScrollController,
+        SizedBox,
+        SnackBar,
+        State,
+        StatefulWidget,
+        Text,
+        TextAlign,
+        TextOverflow,
+        TextStyle,
+        Tooltip,
+        Widget,
+        showDialog;
+import 'package:tabmanager/widgets/button_style.dart'
+    show buttonStyle, dangerButtonStyle;
+import 'package:tabmanager/widgets/popup.dart' show NewLinkPopupCategory;
+
+// Interaction imports
+import 'package:url_launcher/url_launcher.dart' show canLaunchUrl, launchUrl;
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+
+// API Imports
+import 'package:tabmanager/api_interaction/api_requests.dart' show APIRequests;
+import 'package:tabmanager/api_interaction/link.dart' show Link;
 
 class CategoryItem extends StatefulWidget {
   List<Link>? content;
@@ -27,17 +73,11 @@ class CategoryItem extends StatefulWidget {
 class _CategoryItem extends State<CategoryItem> {
   _CategoryItem();
   void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Future<void> removeLink(Link link) async {
-    String url = "http://localhost:3000/links/${link.id}";
-    await http.delete(Uri.parse(url), body: link.toJson());
-    widget.notifyParent();
   }
 
   @override
@@ -162,13 +202,15 @@ class _CategoryItem extends State<CategoryItem> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
-                                    await removeLink(widget.content![i]);
+                                    await APIRequests.removeLink(
+                                        widget.content![i]);
                                     if (widget.content!.length == 1) {
                                       widget.notifyParentFull(widget.category);
                                     } else {
                                       widget.notifyParent();
                                     }
-                                    await removeLink(widget.content![i]);
+                                    await APIRequests.removeLink(
+                                        widget.content![i]);
                                     if (widget.content!.length == 1) {
                                       widget.notifyParentFull(widget.category);
                                     } else {
