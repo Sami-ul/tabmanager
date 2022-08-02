@@ -24,6 +24,7 @@ import 'package:flutter/material.dart'
         RoundedRectangleBorder,
         SafeArea,
         ScaffoldMessenger,
+        SelectableText,
         SizedBox,
         SnackBar,
         StatelessWidget,
@@ -124,7 +125,7 @@ class NewLinkPopup extends StatelessWidget {
                             const snackBar = SnackBar(
                               backgroundColor:
                                   Color.fromARGB(255, 114, 90, 250),
-                              content: Text(
+                              content: SelectableText(
                                 'Added',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -136,7 +137,7 @@ class NewLinkPopup extends StatelessWidget {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          child: const Text("Add"),
+                          child: const SelectableText("Add"),
                         ),
                         const SizedBox(height: 25),
                         ElevatedButton(
@@ -145,7 +146,7 @@ class NewLinkPopup extends StatelessWidget {
                             Navigator.pop(
                                 context); // Allows the user to close the popup
                           },
-                          child: const Text('Close'),
+                          child: const SelectableText('Close'),
                         ),
                       ],
                     ),
@@ -250,7 +251,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                               const snackBar = SnackBar(
                                 backgroundColor:
                                     Color.fromARGB(255, 114, 90, 250),
-                                content: Text(
+                                content: SelectableText(
                                   'Added',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -262,7 +263,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             },
-                            child: const Text("Add")),
+                            child: const SelectableText("Add")),
                         const SizedBox(height: 25),
                         ElevatedButton(
                           style: buttonStyle, // Using the style we made
@@ -270,7 +271,8 @@ class NewLinkPopupCategory extends StatelessWidget {
                             Navigator.pop(
                                 context); // Allows the user to close the popup
                           },
-                          child: const Text('Close'), // Text inside the button
+                          child: const SelectableText(
+                              'Close'), // Text inside the button
                         ),
                       ],
                     ),
@@ -306,7 +308,7 @@ class ErrorPopup extends StatelessWidget {
               // Rounded corners
               borderRadius: BorderRadius.all(Radius.circular(25))),
           title: Center(
-            child: Text(
+            child: SelectableText(
               message,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 24),
@@ -318,7 +320,7 @@ class ErrorPopup extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context); // Allows the user to close the popup
               },
-              child: const Text('Close'), // Text inside the button
+              child: const SelectableText('Close'), // Text inside the button
             ),
           ],
         ),

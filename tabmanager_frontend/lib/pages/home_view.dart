@@ -22,6 +22,7 @@ import 'package:flutter/material.dart'
         Radius,
         RoundedRectangleBorder,
         Scaffold,
+        SelectableText,
         ShapeDecoration,
         SliverGrid,
         SliverPadding,
@@ -149,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: Colors.white,
           shadowColor: Colors.white,
           title: const Center(
-            child: Text(
+            child: SelectableText(
               "Tab Manager",
               style: TextStyle(color: Colors.white, fontSize: 34),
             ),

@@ -29,6 +29,7 @@ import 'package:flutter/material.dart'
         Row,
         ScaffoldMessenger,
         ScrollController,
+        SelectableText,
         SizedBox,
         SnackBar,
         State,
@@ -110,12 +111,11 @@ class _CategoryItem extends State<CategoryItem> {
               child: Tooltip(
                 message: widget.category,
                 child: Center(
-                  child: Text(
-                    widget.category,
-                    style: const TextStyle(fontSize: 24),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                  ),
+                  child: SelectableText(widget.category,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                 ),
               ),
             ),
@@ -144,12 +144,11 @@ class _CategoryItem extends State<CategoryItem> {
                                 width: 150,
                                 child: Tooltip(
                                   message: "${widget.content![i].title}",
-                                  child: Text(
+                                  child: SelectableText(
                                     "${widget.content![i].title}",
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
                                     maxLines: 1,
                                     style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 17,
                                     ),
@@ -161,10 +160,11 @@ class _CategoryItem extends State<CategoryItem> {
                                 width: 225,
                                 child: Tooltip(
                                   message: "${widget.content![i].link}",
-                                  child: Text(
+                                  child: SelectableText(
                                     "${widget.content![i].link}",
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                     maxLines: 1,
                                   ),
                                 ),
@@ -186,7 +186,7 @@ class _CategoryItem extends State<CategoryItem> {
                                     const snackBar = SnackBar(
                                       backgroundColor:
                                           Color.fromARGB(255, 114, 90, 250),
-                                      content: Text(
+                                      content: SelectableText(
                                         'Copied',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -219,7 +219,7 @@ class _CategoryItem extends State<CategoryItem> {
                                     const snackBar = SnackBar(
                                       backgroundColor:
                                           Color.fromARGB(255, 114, 90, 250),
-                                      content: Text(
+                                      content: SelectableText(
                                         'Removed',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -232,7 +232,7 @@ class _CategoryItem extends State<CategoryItem> {
                                         .showSnackBar(snackBar);
                                   },
                                   style: dangerButtonStyle,
-                                  child: const Text("Delete"),
+                                  child: const SelectableText("Delete"),
                                 ),
                                 const SizedBox(width: 8),
                                 ElevatedButton(
@@ -240,7 +240,7 @@ class _CategoryItem extends State<CategoryItem> {
                                       _launchURL("${widget.content![i].link}");
                                     },
                                     style: buttonStyle,
-                                    child: const Text("Open")),
+                                    child: const SelectableText("Open")),
                               ],
                             ),
                           )
@@ -261,7 +261,7 @@ class _CategoryItem extends State<CategoryItem> {
                   widget.notifyParent();
                   widget.notifyParent();
                 },
-                child: const Text("Add")),
+                child: const SelectableText("Add")),
           ],
         ),
       ),
