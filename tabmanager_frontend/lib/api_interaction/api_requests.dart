@@ -15,16 +15,19 @@ class APIRequests {
     await http.delete(Uri.parse(url), body: link.toJson());
   }
 
-  static Future<List<Link>> getLinks() async {
+  static Stream<List<Link>> getLinks() async* {
     String url = "http://localhost:3000/links";
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var linksList = (json.decode(response.body) as List)
-          .map((e) => Link.fromJson(e))
-          .toList(); // deserialize
-      return linksList;
-    } else {
-      throw Exception("Failed to load");
+    while (true) {
+      await Future.delayed(const Duration(seconds: 1)); // 1 second delay
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var linksList = (json.decode(response.body) as List)
+            .map((e) => Link.fromJson(e))
+            .toList(); // deserialize
+        yield linksList;
+      } else {
+        throw Exception("Failed to load");
+      }
     }
   }
 }

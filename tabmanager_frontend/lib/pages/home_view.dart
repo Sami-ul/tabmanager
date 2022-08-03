@@ -13,7 +13,6 @@ import 'package:flutter/material.dart'
         Container,
         CustomScrollView,
         EdgeInsets,
-        FutureBuilder,
         Icon,
         Icons,
         Key,
@@ -28,6 +27,7 @@ import 'package:flutter/material.dart'
         SliverPadding,
         State,
         StatefulWidget,
+        StreamBuilder,
         Text,
         TextStyle,
         Widget,
@@ -47,25 +47,11 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Map<String, CategoryItem> movableItems;
+  Map<String, CategoryItem> movableItems = {};
   int index = 0;
-  void notifyParent() {
-    setState(() {
-      build(context);
-    });
-  }
+  void notifyParent() {}
 
-  @override
-  void initState() {
-    super.initState();
-    movableItems = {};
-  }
-
-  void notifyParentFull(String category) {
-    setState(() {
-      movableItems = {};
-    });
-  }
+  void notifyParentFull(String category) {}
 
   Map<String, List<Link>> separateToCategories(List<Link> links) {
     // TODO do this in db later
@@ -88,16 +74,9 @@ class _HomeViewState extends State<HomeView> {
         if (snapshot.data != null) {
           Map<String, List<Link>> separated =
               separateToCategories(snapshot.data!);
-          double posX = 10, posY = 10;
-          double maxX = MediaQuery.of(context).size.width;
           for (String i in separated.keys) {
-            if (posX + 310 >= maxX) {
-              posX = 10;
-              posY += 400;
-            }
-            movableItems[i] = CategoryItem(
-                separated[i], i, posX, posY, notifyParent, notifyParentFull);
-            posX += 330;
+            movableItems[i] =
+                CategoryItem(separated[i], i, notifyParent, notifyParentFull);
           }
         }
         return CustomScrollView(
@@ -128,7 +107,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    movableItems = {};
     return Scaffold(
       appBar: AppBar(
           flexibleSpace: Container(
@@ -155,9 +133,9 @@ class _HomeViewState extends State<HomeView> {
               style: TextStyle(color: Colors.white, fontSize: 34),
             ),
           )),
-      body: FutureBuilder(
+      body: StreamBuilder(
         builder: futureBuildResults,
-        future: APIRequests.getLinks(),
+        stream: APIRequests.getLinks(),
       ),
       floatingActionButton: SpeedDial(
         backgroundColor: const Color.fromARGB(255, 114, 90, 250),
@@ -174,9 +152,6 @@ class _HomeViewState extends State<HomeView> {
                 context: context,
                 builder: (context) => const NewLinkPopup(),
               );
-              setState(() {
-                build(context);
-              });
             },
           )
         ],

@@ -125,7 +125,7 @@ class NewLinkPopup extends StatelessWidget {
                             const snackBar = SnackBar(
                               backgroundColor:
                                   Color.fromARGB(255, 114, 90, 250),
-                              content: SelectableText(
+                              content: Text(
                                 'Added',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -137,7 +137,7 @@ class NewLinkPopup extends StatelessWidget {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          child: const SelectableText("Add"),
+                          child: const Text("Add"),
                         ),
                         const SizedBox(height: 25),
                         ElevatedButton(
@@ -146,7 +146,7 @@ class NewLinkPopup extends StatelessWidget {
                             Navigator.pop(
                                 context); // Allows the user to close the popup
                           },
-                          child: const SelectableText('Close'),
+                          child: const Text('Close'),
                         ),
                       ],
                     ),
@@ -251,7 +251,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                               const snackBar = SnackBar(
                                 backgroundColor:
                                     Color.fromARGB(255, 114, 90, 250),
-                                content: SelectableText(
+                                content: Text(
                                   'Added',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -263,7 +263,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             },
-                            child: const SelectableText("Add")),
+                            child: const Text("Add")),
                         const SizedBox(height: 25),
                         ElevatedButton(
                           style: buttonStyle, // Using the style we made
@@ -271,8 +271,7 @@ class NewLinkPopupCategory extends StatelessWidget {
                             Navigator.pop(
                                 context); // Allows the user to close the popup
                           },
-                          child: const SelectableText(
-                              'Close'), // Text inside the button
+                          child: const Text('Close'), // Text inside the button
                         ),
                       ],
                     ),
@@ -320,7 +319,7 @@ class ErrorPopup extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context); // Allows the user to close the popup
               },
-              child: const SelectableText('Close'), // Text inside the button
+              child: const Text('Close'), // Text inside the button
             ),
           ],
         ),

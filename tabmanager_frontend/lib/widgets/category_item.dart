@@ -56,13 +56,11 @@ import 'package:tabmanager/api_interaction/link.dart' show Link;
 class CategoryItem extends StatefulWidget {
   List<Link>? content;
   String category;
-  double xPosition;
-  double yPosition;
   final Function notifyParent;
   final Function notifyParentFull;
   ScrollController controller = ScrollController();
-  CategoryItem(this.content, this.category, this.xPosition, this.yPosition,
-      this.notifyParent, this.notifyParentFull,
+  CategoryItem(
+      this.content, this.category, this.notifyParent, this.notifyParentFull,
       {Key? key})
       : super(key: key);
   @override
@@ -186,7 +184,7 @@ class _CategoryItem extends State<CategoryItem> {
                                     const snackBar = SnackBar(
                                       backgroundColor:
                                           Color.fromARGB(255, 114, 90, 250),
-                                      content: SelectableText(
+                                      content: Text(
                                         'Copied',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -209,17 +207,10 @@ class _CategoryItem extends State<CategoryItem> {
                                     } else {
                                       widget.notifyParent();
                                     }
-                                    await APIRequests.removeLink(
-                                        widget.content![i]);
-                                    if (widget.content!.length == 1) {
-                                      widget.notifyParentFull(widget.category);
-                                    } else {
-                                      widget.notifyParent();
-                                    }
                                     const snackBar = SnackBar(
                                       backgroundColor:
                                           Color.fromARGB(255, 114, 90, 250),
-                                      content: SelectableText(
+                                      content: Text(
                                         'Removed',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -232,7 +223,7 @@ class _CategoryItem extends State<CategoryItem> {
                                         .showSnackBar(snackBar);
                                   },
                                   style: dangerButtonStyle,
-                                  child: const SelectableText("Delete"),
+                                  child: const Text("Delete"),
                                 ),
                                 const SizedBox(width: 8),
                                 ElevatedButton(
@@ -240,7 +231,7 @@ class _CategoryItem extends State<CategoryItem> {
                                       _launchURL("${widget.content![i].link}");
                                     },
                                     style: buttonStyle,
-                                    child: const SelectableText("Open")),
+                                    child: const Text("Open")),
                               ],
                             ),
                           )
@@ -261,7 +252,7 @@ class _CategoryItem extends State<CategoryItem> {
                   widget.notifyParent();
                   widget.notifyParent();
                 },
-                child: const SelectableText("Add")),
+                child: const Text("Add")),
           ],
         ),
       ),
