@@ -49,9 +49,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   Map<String, CategoryItem> movableItems = {};
   int index = 0;
-  void notifyParent() {}
-
-  void notifyParentFull(String category) {}
 
   Map<String, List<Link>> separateToCategories(List<Link> links) {
     // TODO do this in db later
@@ -75,8 +72,7 @@ class _HomeViewState extends State<HomeView> {
           Map<String, List<Link>> separated =
               separateToCategories(snapshot.data!);
           for (String i in separated.keys) {
-            movableItems[i] =
-                CategoryItem(separated[i], i, notifyParent, notifyParentFull);
+            movableItems[i] = CategoryItem(separated[i], i);
           }
         }
         return CustomScrollView(

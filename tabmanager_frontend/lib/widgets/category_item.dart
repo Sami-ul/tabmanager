@@ -56,13 +56,8 @@ import 'package:tabmanager/api_interaction/link.dart' show Link;
 class CategoryItem extends StatefulWidget {
   List<Link>? content;
   String category;
-  final Function notifyParent;
-  final Function notifyParentFull;
   ScrollController controller = ScrollController();
-  CategoryItem(
-      this.content, this.category, this.notifyParent, this.notifyParentFull,
-      {Key? key})
-      : super(key: key);
+  CategoryItem(this.content, this.category, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _CategoryItem();
@@ -202,11 +197,6 @@ class _CategoryItem extends State<CategoryItem> {
                                   onPressed: () async {
                                     await APIRequests.removeLink(
                                         widget.content![i]);
-                                    if (widget.content!.length == 1) {
-                                      widget.notifyParentFull(widget.category);
-                                    } else {
-                                      widget.notifyParent();
-                                    }
                                     const snackBar = SnackBar(
                                       backgroundColor:
                                           Color.fromARGB(255, 114, 90, 250),
@@ -249,8 +239,6 @@ class _CategoryItem extends State<CategoryItem> {
                     context: context,
                     builder: (context) => NewLinkPopupCategory(widget.category),
                   );
-                  widget.notifyParent();
-                  widget.notifyParent();
                 },
                 child: const Text("Add")),
           ],
