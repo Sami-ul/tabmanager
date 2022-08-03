@@ -15,7 +15,7 @@ app.use(
     })
 );
 app.use(cors("*"));
-app.use(express.static(path.join(__dirname, 'flutter_build')));
+app.use(express.static(path.join(__dirname, 'flutter_build/web')));
 
 app.get('/', (req, res) => {
     res.send("online");
