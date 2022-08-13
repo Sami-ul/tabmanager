@@ -55,14 +55,25 @@ const updateLink = (request, response) => {
 
 const deleteLink = (request, response) => {
     const id = parseInt(request.params.id)
-  
+
     pool.query('DELETE FROM links WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`links deleted with ID: ${id}`)
-    })
-  }
+        if (error) {
+            throw error;
+        }
+        response.status(200).send(`links deleted with ID: ${id}`);
+    });
+};
+
+const searchLinks = (request, response) => {
+    const query = parseInt(request.params.id);
+
+    pool.query('SELECT * FROM links WHERE title % $1', [query], (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(200).json(results.rows);
+    });
+};
 
 module.exports = {
     getLinks,
@@ -70,5 +81,6 @@ module.exports = {
     createLink,
     updateLink,
     deleteLink,
+    searchLinks,
     pool,
 };
