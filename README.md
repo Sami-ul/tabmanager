@@ -23,11 +23,14 @@ You can contact me here: ahmed.samiul.h@gmail.com
 
 ![Page 1](repoAssets/page1.png)
 ![Page 2](repoAssets/page2.png)
+![Page 3](repoAssets/page3.png)
+![Page 4](repoAssets/page4.png)
 
 ## Info
 
 - A tab manager that uses Postgres, NodeJS, Express, and Flutter
 - Boxes are draggable
+- Search feature that uses the title to search
 - Instructions to set up Postgres are in `tabmanager_backend\SQL_Queries`
 
 ## Usage
