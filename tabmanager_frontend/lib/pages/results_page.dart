@@ -13,6 +13,7 @@ import 'package:flutter/material.dart'
         Container,
         CustomScrollView,
         EdgeInsets,
+        FutureBuilder,
         Icon,
         IconButton,
         Icons,
@@ -43,14 +44,16 @@ import 'package:tabmanager/pages/search_page.dart';
 import 'package:tabmanager/widgets/category_item.dart' show CategoryItem;
 import 'package:tabmanager/widgets/popup.dart' show ErrorPopup, NewLinkPopup;
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class SearchResults extends StatefulWidget {
+  const SearchResults(this.query, {Key? key}) : super(key: key);
+
+  final String query;
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _SearchResultsState createState() => _SearchResultsState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _SearchResultsState extends State<SearchResults> {
   Map<String, CategoryItem> movableItems = {};
   int index = 0;
 
@@ -127,44 +130,16 @@ class _HomeViewState extends State<HomeView> {
             borderRadius: BorderRadius.all(Radius.circular(25))),
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
-        title: const Center(
+        title: Center(
           child: SelectableText(
-            "Tab Manager",
-            style: TextStyle(color: Colors.white, fontSize: 34),
+            widget.query,
+            style: const TextStyle(color: Colors.white, fontSize: 34),
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchPage()));
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
       ),
-      body: StreamBuilder(
+      body: FutureBuilder(
         builder: futureBuildResults,
-        stream: APIRequests.getLinks(),
-      ),
-      floatingActionButton: SpeedDial(
-        backgroundColor: const Color.fromARGB(255, 114, 90, 250),
-        overlayColor: Colors.black,
-        overlayOpacity: 0.3,
-        animatedIcon: AnimatedIcons.menu_close,
-        children: [
-          SpeedDialChild(
-            child: const Icon(Icons.add),
-            label: "Add new link",
-            onTap: () async {
-              await showDialog(
-                // Flutter method for showing popups
-                context: context,
-                builder: (context) => const NewLinkPopup(),
-              );
-            },
-          )
-        ],
+        future: APIRequests.searchLinks(widget.query),
       ),
     );
   }

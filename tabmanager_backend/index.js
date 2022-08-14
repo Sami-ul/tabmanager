@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 const Pool = require('pg').Pool
 
 db.pool.query("CREATE TABLE IF NOT EXISTS links (ID SERIAL PRIMARY KEY, title TEXT, category VARCHAR(30), link TEXT);");
+// db.pool.query("CREATE EXTENSION pg_trgm;");
 app.use(
     bodyParser.urlencoded({
         extended: true,
@@ -22,6 +23,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/links', db.getLinks);
+
+app.get('/search', db.searchLinks);
 
 app.get('/links/:id', db.getLinkById);
 

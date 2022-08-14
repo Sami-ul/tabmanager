@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool
 const pool = new Pool({
-    user: 'me',
+    user: 'postgres',
     host: 'localhost',
     database: 'tabmanager',
     password: '2b6c',
@@ -65,9 +65,8 @@ const deleteLink = (request, response) => {
 };
 
 const searchLinks = (request, response) => {
-    const query = parseInt(request.params.id);
-
-    pool.query('SELECT * FROM links WHERE title % $1', [query], (error, results) => {
+    const query = request.query['query'];
+    pool.query("SELECT * FROM links WHERE SIMILARITY(title, $1) > 0.2;", [query], (error, results) => {
         if (error) {
             throw error;
         }

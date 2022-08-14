@@ -30,4 +30,19 @@ class APIRequests {
       }
     }
   }
+
+  static Future<List<Link>> searchLinks(String query) async {
+    String url = "http://localhost:3000/search?query=$query";
+    while (true) {
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var linksList = (json.decode(response.body) as List)
+            .map((e) => Link.fromJson(e))
+            .toList(); // deserialize
+        return linksList;
+      } else {
+        throw Exception("Failed to load");
+      }
+    }
+  }
 }
