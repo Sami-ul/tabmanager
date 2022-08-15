@@ -13,6 +13,7 @@ import 'package:flutter/material.dart'
         Container,
         CustomScrollView,
         EdgeInsets,
+        GestureDetector,
         Icon,
         IconButton,
         Icons,
@@ -133,14 +134,17 @@ class _HomeViewState extends State<HomeView> {
             style: TextStyle(color: Colors.white, fontSize: 34),
           ),
         ),
-        actions: [
+        actions: <Widget>[
           IconButton(
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SearchPage()));
             },
-            icon: const Icon(Icons.search),
+            icon: Icon(Icons.search),
           ),
+          Container(
+            width: 50,
+          )
         ],
       ),
       body: StreamBuilder(
