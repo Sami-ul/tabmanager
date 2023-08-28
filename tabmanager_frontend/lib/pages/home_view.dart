@@ -135,6 +135,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         actions: [
           IconButton(
+            padding: const EdgeInsets.only(right: 50.0),
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SearchPage()));
