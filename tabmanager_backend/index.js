@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var path = require('path');
 const db = require('./queries');
 const app = express();
-const port = 3000;
+const port = 3001;
 const cors = require("cors");
 app.use(bodyParser.json());
 const Pool = require('pg').Pool

@@ -6,17 +6,17 @@ class APIRequests {
   APIRequests();
 
   static void addLink(Link link) async {
-    String url = "http://localhost:3000/links";
+    String url = "http://localhost:3001/links";
     await http.post(Uri.parse(url), body: link.toJson());
   }
 
   static Future<void> removeLink(Link link) async {
-    String url = "http://localhost:3000/links/${link.id}";
+    String url = "http://localhost:3001/links/${link.id}";
     await http.delete(Uri.parse(url), body: link.toJson());
   }
 
   static Stream<List<Link>> getLinks() async* {
-    String url = "http://localhost:3000/links";
+    String url = "http://localhost:3001/links";
     while (true) {
       await Future.delayed(const Duration(seconds: 1)); // 1 second delay
       var response = await http.get(Uri.parse(url));
@@ -32,7 +32,7 @@ class APIRequests {
   }
 
   static Future<List<Link>> searchLinks(String query) async {
-    String url = "http://localhost:3000/search?query=$query";
+    String url = "http://localhost:3001/search?query=$query";
     while (true) {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
