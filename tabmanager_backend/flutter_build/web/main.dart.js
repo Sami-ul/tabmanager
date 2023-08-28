@@ -20066,13 +20066,13 @@ _.e=_.d=null},
 Df(a){var s=0,r=A.a0(t.z)
 var $async$Df=A.X(function(b,c){if(b===1)return A.Y(c,r)
 while(true)switch(s){case 0:s=2
-return A.a4(A.aCn(A.i0("http://localhost:3000/links",0,null),a.ix()),$async$Df)
+return A.a4(A.aCn(A.i0("http://localhost:3001/links",0,null),a.ix()),$async$Df)
 case 2:return A.Z(null,r)}})
 return A.a_($async$Df,r)},
 RE(a){var s=0,r=A.a0(t.H)
 var $async$RE=A.X(function(b,c){if(b===1)return A.Y(c,r)
 while(true)switch(s){case 0:s=2
-return A.a4(A.aoL(A.i0("http://localhost:3000/links/"+A.f(a.a),0,null),a.ix()),$async$RE)
+return A.a4(A.aoL(A.i0("http://localhost:3001/links/"+A.f(a.a),0,null),a.ix()),$async$RE)
 case 2:return A.Z(null,r)}})
 return A.a_($async$RE,r)},
 uf(){var $async$uf=A.X(function(a,b){switch(a){case 2:n=q
@@ -20084,7 +20084,7 @@ case 3:if(!!0){s=4
 break}s=5
 return A.QT(A.FY(B.cZ,null,k),$async$uf,r)
 case 5:s=6
-return A.QT(A.ao4(A.i0("http://localhost:3000/links",0,null)),$async$uf,r)
+return A.QT(A.ao4(A.i0("http://localhost:3001/links",0,null)),$async$uf,r)
 case 6:j=b
 s=j.b===200?7:9
 break
@@ -20103,7 +20103,7 @@ return A.aAG(r)},
 RF(a){var s=0,r=A.a0(t.eY),q,p
 var $async$RF=A.X(function(b,c){if(b===1)return A.Y(c,r)
 while(true)switch(s){case 0:s=3
-return A.a4(A.ao4(A.i0("http://localhost:3000/search?query="+a,0,null)),$async$RF)
+return A.a4(A.ao4(A.i0("http://localhost:3001/search?query="+a,0,null)),$async$RF)
 case 3:p=c
 if(p.b===200){q=J.ue(t.j.a(B.b1.d0(0,A.anV(A.an_(p.e).c.a.h(0,"charset")).d0(0,p.w))),new A.RG(),t.Ca).en(0)
 s=1
