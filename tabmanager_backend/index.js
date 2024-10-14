@@ -18,6 +18,7 @@ app.use(
 app.use(cors("*"));
 app.use(express.static(path.join(__dirname, 'flutter_build/web')));
 
+// app routes for REST API access through get/post/put/delete requests
 app.get('/', (req, res) => {
     res.send("online");
 });
@@ -34,6 +35,7 @@ app.put('/links/:id', db.updateLink);
 
 app.delete('/links/:id', db.deleteLink);
 
+// start listening for requests
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);
 });
